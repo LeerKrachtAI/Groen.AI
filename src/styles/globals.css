@@ -1,0 +1,316 @@
+/*
+  Groen.AI - Global Stylesheet
+  Design System v2.0: Apple-Inspired Glassmorphism
+*/
+
+/* 1. FONT IMPORT */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
+
+/* 2. TAILWIND DIRECTIVES */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 3. CSS VARIABLES & THEME SETUP */
+:root {
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Light Mode (Default) */
+  --bg-primary: #F5F5F7;
+  --bg-secondary: #FFFFFF;
+  --text-primary: #1D1D1F;
+  --text-secondary: #424245;
+  --text-muted: #86868B;
+  
+  --glass-bg-primary: rgba(255, 255, 255, 0.72);
+  --glass-bg-secondary: rgba(255, 255, 255, 0.5);
+  --glass-border-color: rgba(0, 0, 0, 0.18);
+  --glass-opacity: 0.15;
+  --blur-base: 20px;
+  --blur-hover: 40px;
+
+  /* Accents */
+  --accent-primary: #0D4F3C;
+  --accent-secondary: #16A085;
+  --accent-gradient: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+}
+
+[data-theme='dark'] {
+  --bg-primary: #000000;
+  --bg-secondary: #1D1D1F;
+  --text-primary: #F5F5F7;
+  --text-secondary: #A1A1A6;
+  --text-muted: #636366;
+
+  --glass-bg-primary: rgba(29, 29, 31, 0.72);
+  --glass-bg-secondary: rgba(29, 29, 31, 0.5);
+  --glass-border-color: rgba(255, 255, 255, 0.18);
+  --glass-opacity: 0.1;
+}
+
+/* 4. BASE & BODY STYLES */
+html {
+  scroll-behavior: smooth;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.5s var(--ease-premium), color 0.5s var(--ease-premium);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 5. ANIMATED GRADIENT BACKGROUND */
+.dynamic-gradient-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 300vh; /* Increased height for scroll effect */
+  z-index: -2; /* Behind overlay */
+  transition: opacity 0.8s var(--ease-premium);
+  will-change: transform;
+}
+
+/* Light mode gradient */
+:root .dynamic-gradient-background {
+  background: linear-gradient(
+    180deg,
+    #FFFFFF 0%,
+    #F5F7FA 25%,
+    #E8F5E9 50%,
+    #C8E6C9 75%,
+    #A5D6A7 100%
+  );
+}
+
+/* Dark mode gradient */
+[data-theme='dark'] .dynamic-gradient-background {
+  background: linear-gradient(
+    180deg,
+    #000000 0%,
+    #0A1F1B 25%,
+    #0D4F3C 50%,
+    #0A3426 75%,
+    #000000 100%
+  );
+}
+
+/* Readability Overlay */
+.gradient-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  transition: background 0.8s var(--ease-premium);
+}
+
+[data-theme='dark'] .gradient-overlay {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+}
+
+/* 6. GLASSMORPHISM & SHADOW UTILITIES */
+
+/* Apple-inspired Liquid Glass */
+.liquid-glass {
+  background: color-mix(
+    in srgb,
+    var(--glass-bg-primary) var(--glass-opacity),
+    rgba(255, 255, 255, 0.05)
+  );
+  /* Multi-layer border for depth */
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 0 20px rgba(255, 255, 255, 0.05);
+  
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .liquid-glass {
+    backdrop-filter: blur(var(--blur-base)) saturate(150%);
+    -webkit-backdrop-filter: blur(var(--blur-base)) saturate(150%);
+  }
+  .liquid-glass:hover {
+    backdrop-filter: blur(var(--blur-hover)) saturate(180%);
+    transform: translateY(-2px) scale(1.01);
+  }
+}
+
+/* Fallback for browsers that do not support backdrop-filter */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .liquid-glass {
+    background-color: var(--bg-secondary);
+    opacity: 0.95;
+  }
+}
+
+/* Luxury depth system */
+.luxury-shadow-sm {
+  box-shadow: 
+    0 1px 1px rgba(0, 0, 0, 0.11),
+    0 2px 2px rgba(0, 0, 0, 0.11),
+    0 4px 4px rgba(0, 0, 0, 0.11),
+    0 6px 8px rgba(0, 0, 0, 0.11),
+    0 8px 16px rgba(0, 0, 0, 0.11);
+}
+
+.luxury-shadow-lg {
+  box-shadow: 
+    0 2px 1px rgba(0, 0, 0, 0.09),
+    0 4px 2px rgba(0, 0, 0, 0.09),
+    0 8px 4px rgba(0, 0, 0, 0.09),
+    0 16px 8px rgba(0, 0, 0, 0.09),
+    0 32px 16px rgba(0, 0, 0, 0.09);
+}
+
+/* Colored glow for accents */
+.accent-glow {
+  box-shadow: 
+    0 0 20px rgba(13, 79, 60, 0.15),
+    0 0 40px rgba(13, 79, 60, 0.1),
+    0 0 60px rgba(13, 79, 60, 0.05);
+}
+
+/* 7. ANIMATION UTILITIES */
+.fade-in-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s var(--ease-premium), transform 0.6s var(--ease-premium);
+  will-change: opacity, transform;
+}
+
+
+.fade-in-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.parallax-element {
+  will-change: transform;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* 8. UTILITY CLASSES */
+.text-gradient {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.luxury-container {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+section {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+/* 9. EXPERT IMPROVEMENTS */
+
+/* WCAG Contrast & Accessibility */
+.high-contrast {
+  filter: contrast(1.2);
+}
+.auto-contrast {
+  color: var(--text-primary);
+  mix-blend-mode: difference;
+}
+*:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Skeleton Loading States */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--glass-bg-secondary) 0%,
+    var(--glass-bg-primary) 50%,
+    var(--glass-bg-secondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Slider Thumb Styling */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--accent-primary);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  margin-top: -8px; /* Center thumb on track */
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--accent-primary);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .parallax-element {
+    transform: none !important;
+  }
+}
