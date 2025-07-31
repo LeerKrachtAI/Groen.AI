@@ -1,19 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import Hero from './components/Hero';
-import ChaosToClarity from './components/ChaosToClarity';
-import Solutions from './components/Solutions';
-import CaseStudies from './components/CaseStudies';
-import Expertise from './components/Expertise';
-import Stats from './components/Stats';
-import Process from './components/Process';
-import FAQ from './components/FAQ';
-import ComparisonTable from './components/ComparisonTable';
-import TestimonialSlider from './components/TestimonialSlider';
 import Contact from './components/Contact';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
-
 import StickyActions from './components/StickyActions';
+import DubbeledrukSection from './components/DubbeledrukSection';
+import StatsSection from './components/StatsSection';
+import SolutionsSection from './components/SolutionsSection';
+import ProcessSection from './components/ProcessSection';
+import FAQ from './components/FAQ';
+
 
 function App() {
   const bgRef = useRef<HTMLDivElement>(null);
@@ -42,14 +38,10 @@ function App() {
         <Navigation />
         <main>
           <Hero />
-          <ChaosToClarity />
-          <Solutions />
-          <CaseStudies />
-          <Expertise />
-          <Stats />
-          <Process />
-          <TestimonialSlider />
-          <ComparisonTable />
+          <DubbeledrukSection />
+          <StatsSection />
+          <SolutionsSection />
+          <ProcessSection />
           <FAQ />
           <Contact />
         </main>

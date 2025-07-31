@@ -1,56 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { MessageCircle, Phone } from 'lucide-react';
+// components/StickyActions.tsx
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Calendar, MessageSquare, X } from 'lucide-react';
 
 const StickyActions = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      // Show buttons after scrolling past the hero section (approx 100vh)
-      setIsVisible(window.scrollY > window.innerHeight * 0.8);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const buttonVariants = {
-    hidden: { scale: 0, opacity: 0 },
-    visible: { scale: 1, opacity: 1 },
-  };
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   return (
-    <>
-      {/* WhatsApp button - links onder */}
-      <motion.a
-        href="https://wa.me/31612345678" // Replace with actual number
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 left-6 z-50 liquid-glass rounded-full p-3 shadow-xl"
-        variants={buttonVariants}
-        initial="hidden"
-        animate={isVisible ? "visible" : "hidden"}
-        whileHover={{ scale: 1.1, y: -2 }}
-        transition={{ type: "spring", stiffness: 400, damping: 15 }}
-        aria-label="Contact via WhatsApp"
-      >
-        <MessageCircle className="w-6 h-6 text-[var(--accent-primary)]" />
-      </motion.a>
+    <div className="sticky-actions-container">
+      {/* Contact Bubble */}
+      <div className="chat-bubble-wrapper">
+        <AnimatePresence>
+        {isChatOpen && (
+            <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                className="chat-popup liquid-glass"
+            >
+                <div className="chat-header">
+                    <div className="flex items-center gap-3">
+                        <img src="https://avatar.vercel.sh/sam" alt="Support" className="w-10 h-10 rounded-full" />
+                        <div>
+                            <p className="font-semibold text-white">Sam van Groen.AI</p>
+                            <p className="text-xs text-green-400">Online</p>
+                        </div>
+                    </div>
+                    <button onClick={() => setIsChatOpen(false)}><X size={20} className="text-gray-400"/></button>
+                </div>
+                <div className="p-4 text-sm text-gray-200">
+                    Hey! Kan ik je helpen met een vraag? Stel hem gerust hier.
+                </div>
+            </motion.div>
+        )}
+        </AnimatePresence>
+        <motion.button 
+            onClick={() => setIsChatOpen(!isChatOpen)}
+            className="contact-bubble"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+        >
+            <MessageSquare size={28} className="text-white"/>
+        </motion.button>
+      </div>
 
-      {/* Phone button - rechts onder */}
-      <motion.a
-        href="tel:+31612345678" // Replace with actual number
-        className="fixed bottom-6 right-6 z-50 liquid-glass rounded-full p-3 shadow-xl"
-        variants={buttonVariants}
-        initial="hidden"
-        animate={isVisible ? "visible" : "hidden"}
-        whileHover={{ scale: 1.1, y: -2 }}
-        transition={{ type: "spring", stiffness: 400, damping: 15, delay: 0.1 }}
-        aria-label="Bel ons"
+      {/* Demo Button */}
+      <motion.a 
+        href="#contact"
+        className="demo-button"
+        whileHover="hover"
       >
-        <Phone className="w-6 h-6 text-[var(--accent-primary)]" />
+        <motion.span variants={{ hover: { width: 'auto', opacity: 1, marginRight: '0.5rem' } }} className="demo-button-text">Plan een demo</motion.span>
+        <Calendar size={24} />
       </motion.a>
-    </>
+    </div>
   );
 };
 

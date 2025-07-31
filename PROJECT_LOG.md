@@ -2,104 +2,74 @@
 
 Dit document houdt de voortgang, beslissingen en aanpassingen bij voor de ontwikkeling van de Groen.AI website.
 
-**Huidige Status (30-07-2025):** Start van de "Ultra-Premium" redesign. Focus op het implementeren van een Apple-geïnspireerd "Liquid Glass" design, een geavanceerde "Process" sectie-timeline, en het verbeteren van de algehele performance en luxe uitstraling.
+**Huidige Status (30-07-2025):** Start van de "3D Spatial Redesign". Focus op het implementeren van een premium hero sectie met een 3D spatial scroll zoom effect.
 
 ---
 
 ## Actieplan & Checklist
 
-### Ultra-Premium Redesign (In Progress 30-07-2025)
+### 3D Spatial Redesign (In Progress 30-07-2025)
 
-**Doel:** De Groen.AI website transformeren naar een ultra-premium glassmorphism experience die Apple's design excellence evenaart of overtreft, met focus op de Process sectie als showcase element.
+**Doel:** De website voorzien van een visueel verbluffende en interactieve introductie door middel van een 3D spatial scroll effect in de hero sectie.
 
 <implementation_checklist>
-    <phase_1_foundation>
-      [x] Audit huidige TestimonialSlider voor visibility issue
-      [x] Update CSS variabelen voor enhanced glassmorphism
-      [x] Implementeer luxury shadow utility classes
-      [x] Test browser compatibility voor backdrop-filter
-      [x] Setup GSAP ScrollTrigger configuratie
-    </phase_1_foundation>
-
-    <phase_2_process_section>
-      [x] Creëer ProcessTimeline component structuur
-      [x] Implementeer verticale progress bar met gradient
-      [x] Build TimelineCard met alternerende layout
-      [x] Add expand/collapse functionaliteit
-      [x] Integreer scroll-based animations
-      [x] Test mobile responsiveness
-    </phase_2_process_section>
-
-    <phase_3_glassmorphism_upgrade>
-      [x] Upgrade alle glass-primary classes naar liquid-glass
-      [x] Implementeer multi-layer border system
-      [x] Add hover state enhancements
-      [x] Creëer accent glow effects
-      [x] Update dark mode glass values
-    </phase_3_glassmorphism_upgrade>
-
-    <phase_4_footer>
-      [x] Design footer component structuur
-      [x] Implementeer newsletter form met validation
-      [x] Add social media icons met hover effects
-      [x] Ensure responsive grid layout
-      [x] Test glassmorphism op verschillende backgrounds
-    </phase_4_footer>
-
-    <phase_5_polish>
-      [x] Performance audit met Lighthouse
-      [x] Accessibility check voor contrast ratios
-      [x] Add prefers-reduced-motion support
-      [x] Browser testing (Safari, Firefox, Chrome)
-      [x] Mobile optimization for touch devices
-    </phase_5_polish>
-  </implementation_checklist>
-
----
-
-## Actieplan & Checklist (Archief)
-
-### UI/UX Redesign (Voltooid 29-07-2025)
-
-**Doel:** De website transformeren naar een coherent, premium glassmorphism design met seamless dark/light mode ondersteuning en vloeiende animaties.
-
-**Execution Checklist:**
-- [x] **Stap 1: Design System Setup**
-  - [x] `src/styles/globals.css` geüpdatet met nieuwe CSS-variabelen voor thema's.
-  - [x] Glassmorphism utility classes (`glass-primary`, `glass-secondary`) geïmplementeerd.
-  - [x] Geanimeerde gradient achtergrond geconfigureerd.
-  - [x] Transition en animation utilities opgezet.
-- [x] **Stap 2: Theme Provider Implementatie**
-  - [x] `ThemeProvider` component gecreëerd met React Context.
-  - [x] `localStorage` persistence geïmplementeerd voor thema-keuze.
-  - [x] `data-theme` attribute management op `<html>` tag ingesteld.
-  - [x] `useTheme` hook geëxporteerd en gebruikt.
-- [x] **Stap 3: Navigation Update**
-  - [x] Theme toggle button met Sun/Moon iconen geïntegreerd.
-  - [x] Glassmorphism styling toegepast op navigatiebalk.
-  - [x] Sticky gedrag getest en gevalideerd met nieuwe styling.
-- [x] **Stap 4: Animation Hooks**
-  - [x] `useScrollAnimation` hook (met `IntersectionObserver`) gecreëerd.
-  - [x] `useParallax` hook (met `framer-motion`) gecreëerd.
-  - [x] `framer-motion` geïnstalleerd en gebruikt voor performante animaties.
-- [x] **Stap 5: Component Migration**
-  - [x] Alle sectie-componenten systematisch gemigreerd naar het nieuwe design system.
-  - [x] `glass-primary` en `glass-secondary` consistent toegepast.
-  - [x] Dark/light mode getest voor elke sectie.
-  - [x] Oude, inconsistente componenten (`Problem`, `TrustSignals`, `StickyElements`) verwijderd.
-- [x] **Stap 6: Performance & Opschoning**
-  - [x] `will-change` en andere performance-optimalisaties toegepast waar nodig.
-  - [x] Ongebruikte CSS en component-bestanden verwijderd.
-  - [x] `App.tsx` opgeschoond en gestructureerd.
+    <phase_1_hero_section>
+      [x] CSS fundamenten gelegd met 3D variabelen en keyframes
+      [x] Hero.tsx component herbouwd met 4x4 spatial grid
+      [x] Navigation.tsx geüpdatet met nieuw design en theme toggle
+      [ ] Test 3D scroll effect in Chrome, Safari, Firefox
+      [ ] Verifieer animation-timeline support en fallback
+      [ ] Performance audit (target 60fps)
+      [ ] Valideer theme switching met hero effecten
+    </phase_1_hero_section>
+    <phase_2_sticky_sections>
+      [x] `throttle` utility en `useScrollProgress`, `useStickySection` hooks geïmplementeerd
+      [x] `DubbeledrukSection` (stacked cards) gebouwd en geïntegreerd
+      [x] `StatsSection` (animated counters) gebouwd en geïntegreerd
+      [x] `SolutionsSection` (horizontal scroll) gebouwd en geïntegreerd
+      [x] `ProcessSection` (timeline) gebouwd en geïntegreerd
+      [x] Oude section-componenten opgeschoond
+      [ ] Test sticky gedrag en scroll performance (60fps)
+      [ ] Valideer alle animaties en overgangen
+    </phase_2_sticky_sections>
+    <phase_3_polish_and_conversion>
+        [x] `Contact` sectie volledig herbouwd met split-layout en nieuw formulier
+        [x] `FAQ` sectie gebouwd met accordion-functionaliteit
+        [x] `Footer` aangepast met een newsletter bar
+        [x] `StickyActions` (zwevende CTAs) geïmplementeerd
+        [ ] Test formulier validatie en submission flow
+        [ ] Verifieer alle CTA-links en interacties
+        [ ] Voer accessibility checks uit (WCAG AA)
+    </phase_3_polish_and_conversion>
+</implementation_checklist>
 
 ---
 
 ## Changelog
 
-- **2025-07-30 (Sessie 12 - Refactor 'Chaos' Sectie):**
-    - **Voltooid:** `ChaosToClarity.tsx` volledig en succesvol herbouwd met een 'horizontal scroll' paneel-interactie, gebaseerd op de verstrekte video-referentie.
-    - **Gefixt:** Alle voorgaande layout- en animatieproblemen met de 'sticky stacked cards' zijn opgelost.
-    - **Gedocumenteerd:** Project log en code snippets bijgewerkt met de nieuwe, correcte implementatie.
+- **2025-07-30 (Sessie 13 - 3D Spatial Redesign - Fase 3):**
+    - **Herbouwd:** De `Contact` sectie is volledig vernieuwd met een conversie-gerichte split-layout, een uitgebreider formulier en trust-elementen.
+    - **Geïmplementeerd:** Een nieuwe `FAQ` sectie met een uitklapbare accordion-interface.
+    - **Aangepast:** De `Footer` is voorzien van een prominente nieuwsbrief-aanmeldingsbalk.
+    - **Herbouwd:** De `StickyActions` component is vernieuwd met een "Plan een demo" knop en een interactieve chat-bubbel.
+    - **Gedocumenteerd:** Alle projectdocumentatie is bijgewerkt om de finale wijzigingen te reflecteren.
+
+- **2025-07-30 (Sessie 13 - 3D Spatial Redesign - Fase 2):**
+    - **Geïmplementeerd:** Een set van custom hooks (`useScrollProgress`, `useStickySection`) voor het aansturen van complexe, op scroll-gebaseerde sticky secties.
+    - **Herbouwd:** Vier kernsecties van de website zijn volledig herbouwd met nieuwe, interactieve patronen:
+        - `ChaosToClarity` -> `DubbeledrukSection`: Een 'sticky stacked cards' animatie.
+        - `Stats` -> `StatsSection`: Een sticky sectie met counters die animeren o.b.v. scroll progress.
+        - `Solutions` -> `SolutionsSection`: Een 'horizontal scroll' sectie die wordt aangestuurd door verticale scroll.
+        - `Process` -> `ProcessSection`: Een geanimeerde timeline die de voortgang toont tijdens het scrollen.
+    - **Opgeschoond:** Alle vervangen component-bestanden zijn verwijderd uit de codebase.
+    - **Gedocumenteerd:** Projectdocumentatie is bijgewerkt om de nieuwe componenten en interactiepatronen te reflecteren.
+
+- **2025-07-30 (Sessie 13 - 3D Spatial Redesign - Fase 1):**
+    - **Gestart:** "3D Spatial Redesign" om de visuele impact en interactiviteit te verhogen.
+    - **Geïmplementeerd:** Nieuwe CSS fundamenten in `globals.css` met variabelen voor perspective, 3D-transformaties en hero-specifieke glass effecten. De `spatial-zoom` keyframe animatie is toegevoegd.
+    - **Herbouwd:** `Hero.tsx` volledig vervangen door een nieuwe component die een 4x4 grid met een 3D spatial scroll effect implementeert. De sectie is nu 400vh hoog om het effect te faciliteren.
+    - **Herbouwd:** `Navigation.tsx` geüpdatet naar een strakker, meer minimalistisch design met een verbeterde theme toggle.
+    - **Gedocumenteerd:** Project log, design system en code snippets bijgewerkt met de nieuwe implementaties.
 
 - **2025-07-30 (Sessie 12 - Refactor 'Chaos' Sectie):**
     - **Voltooid:** `ChaosToClarity.tsx` volledig en succesvol herbouwd met een 'horizontal scroll' paneel-interactie, gebaseerd op de verstrekte video-referentie.
@@ -135,13 +105,3 @@ Dit document houdt de voortgang, beslissingen en aanpassingen bij voor de ontwik
     - **Refactored:** Alle componenten (`Hero`, `ChaosToClarity`, `Solutions`, `ROICalculator`, `Expertise`, `Stats`, `Process`, `FAQ`, `ComparisonTable`, `TestimonialSlider`, `Contact`) zijn volledig herbouwd met de nieuwe styling en animaties.
     - **Opgeschoond:** Ongebruikte componenten en CSS-bestanden verwijderd.
     - **Gedocumenteerd:** Project log, design system en chat log geüpdatet. Code snippets gedocumenteerd.
-
-- **2025-07-29 (Sessie 7 - UI/UX Refinement):**
-    - **In Progress:** Poging tot het implementeren van robuustere animaties voor `Solutions.tsx` en `Process.tsx`.
-    - **Geprobeerd:** Vervangen van `Problem.tsx` en `TrustSignals.tsx` door `ChaosToClarity.tsx`.
-    - **Geïmplementeerd:** `framer-motion` library toegevoegd.
-
-- **2025-07-29 (Sessie 6 - UI/UX Audit):**
-    - **Gefixt:** Crash in dev-server door incorrecte MDX-configuratie.
-    - **Refactored:** `FAQ.tsx`, `TestimonialSlider.tsx`, `Expertise.tsx`, `Process.tsx` herbouwd.
-    - **Gestart:** Systematische UI/UX audit en inconsistenties geïdentificeerd.

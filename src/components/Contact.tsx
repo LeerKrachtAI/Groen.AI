@@ -1,131 +1,138 @@
-import React, { useState } from 'react';
-import { Send, CheckCircle, Phone, Mail } from 'lucide-react';
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
+// components/Contact.tsx
+import React, { useState, useEffect, useRef, forwardRef } from 'react';
+import { Send, CheckCircle, ShieldCheck, Zap, Award } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-const FormInput = ({ id, label, ...props }) => (
-  <div>
-    <label htmlFor={id} className="block text-sm font-medium text-[var(--text-secondary)] mb-2">{label}</label>
-    <input id={id} {...props} className="form-input" />
+const FormInput = forwardRef(({ id, label, ...props }, ref) => (
+  <div className="relative">
+    <input id={id} {...props} ref={ref} className="form-input peer" />
+    <label htmlFor={id} className="form-label">{label}</label>
+  </div>
+));
+
+const FormSelect = ({ id, label, children, ...props }) => (
+  <div className="relative">
+    <select id={id} {...props} className="form-input peer">
+      {children}
+    </select>
+    <label htmlFor={id} className="form-label">{label}</label>
   </div>
 );
 
-const FormSelect = ({ id, label, children, ...props }) => (
-  <div>
-    <label htmlFor={id} className="block text-sm font-medium text-[var(--text-secondary)] mb-2">{label}</label>
-    <select id={id} {...props} className="form-input">
-      {children}
-    </select>
-  </div>
+const TrustBadge = ({ icon, text }) => (
+    <div className="flex items-center gap-3">
+        <div className="liquid-glass p-2 rounded-full border-none">{icon}</div>
+        <span className="text-sm text-gray-300">{text}</span>
+    </div>
 );
 
 const Contact = () => {
-  const { ref } = useScrollAnimation();
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const nameInputRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          nameInputRef.current?.focus();
+        }
+      },
+      { threshold: 0.5 }
+    );
 
-  const handleSubmit = async (e) => {
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      observer.observe(contactSection);
+    }
+
+    return () => {
+      if (contactSection) {
+        observer.unobserve(contactSection);
+      }
+    };
+  }, []);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    await new Promise(res => setTimeout(res, 1000)); // Simulate API call
-    setIsSubmitting(false);
     setIsSubmitted(true);
   };
 
   if (isSubmitted) {
     return (
-      <section id="contact" className="flex items-center justify-center">
-        <div className="luxury-container">
-          <div className="liquid-glass luxury-shadow-sm rounded-3xl p-8 md:p-16 text-center max-w-2xl mx-auto">
-            <CheckCircle className="w-16 h-16 text-[var(--accent-secondary)] mx-auto mb-6" />
-            <h2 className="text-3xl font-light text-[var(--text-primary)] mb-4">Bedankt!</h2>
-            <p className="text-lg text-[var(--text-secondary)] leading-relaxed">
-              We hebben je bericht ontvangen en nemen binnen 24 uur contact met je op.
-            </p>
-          </div>
-        </div>
+      <section id="contact" className="min-h-screen flex items-center justify-center p-4">
+        <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center liquid-glass p-12 rounded-3xl max-w-lg mx-auto"
+        >
+          <CheckCircle className="w-20 h-20 text-green-400 mx-auto mb-6" />
+          <h2 className="text-4xl font-bold mb-4 text-white">Bedankt!</h2>
+          <p className="text-lg text-gray-300">
+            Je aanvraag is verzonden. We nemen binnen 24 uur contact op om de volgende stappen te bespreken.
+          </p>
+        </motion.div>
       </section>
     );
   }
 
   return (
-    <section id="contact" ref={ref} className="fade-in-scroll">
-      <div className="luxury-container">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <h2 className="text-3xl md:text-4xl font-light text-[var(--text-primary)] text-balance mb-6">
-            Klaar voor praktische AI?
-            <br />
-            <span className="text-gradient">Plan een gesprek.</span>
-          </h2>
-          <p className="text-lg text-[var(--text-secondary)] leading-relaxed">
-            Vertel ons over je situatie, dan bespreken we welke AI-tools direct impact hebben op jouw dagelijkse workflow.
+    <section id="contact" className="min-h-screen flex items-center justify-center overflow-hidden">
+      <div className="luxury-container grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        {/* Left Content */}
+        <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="text-white"
+        >
+          <h2 className="text-5xl font-bold leading-tight mb-4">Klaar om de controle <span className="text-gradient">terug te nemen?</span></h2>
+          <p className="text-lg text-gray-300 mb-8">
+            In 2 weken van chaos naar rust. Van 's avonds doorwerken naar tijd voor wat echt belangrijk is. Vul het formulier in en ontdek wat AI voor jouw bedrijf kan betekenen.
           </p>
-        </div>
+          <div className="space-y-4">
+              <TrustBadge icon={<ShieldCheck size={20} className="text-green-400"/>} text="100% Nederlandse hosting (ISO 27001)" />
+              <TrustBadge icon={<Zap size={20} className="text-yellow-400"/>} text="Binnen 2 weken operationeel" />
+              <TrustBadge icon={<Award size={20} className="text-purple-400"/>} text="Geen lange, wurgende contracten" />
+          </div>
+          <div className="mt-8 liquid-glass p-4 rounded-xl border-none">
+              <p className="text-center text-sm font-semibold text-yellow-300">Eerste 10 aanmeldingen deze maand krijgen een gratis AI-training voor het hele team!</p>
+          </div>
+        </motion.div>
 
-        <div className="liquid-glass luxury-shadow-sm rounded-3xl p-8 md:p-12 max-w-3xl mx-auto">
+        {/* Right Content - Form */}
+        <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
+            className="liquid-glass p-8 rounded-3xl"
+        >
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <FormInput id="name" name="name" label="Naam" type="text" placeholder="Je naam" required onChange={handleChange} />
-              <FormInput id="email" name="email" label="Email" type="email" placeholder="je@email.com" required onChange={handleChange} />
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Bericht</label>
-              <textarea id="message" name="message" rows={4} placeholder="Vertel ons kort over je grootste uitdaging..." required onChange={handleChange} className="form-input" />
-            </div>
-            <div className="text-right">
-              <button type="submit" disabled={isSubmitting} className="btn-primary disabled:opacity-50">
-                {isSubmitting ? 'Versturen...' : 'Verstuur & Plan Gesprek'}
-                <Send className="w-5 h-5 ml-2" />
-              </button>
-            </div>
+            <FormInput ref={nameInputRef} id="name" name="name" type="text" placeholder=" " label="Naam" required />
+            <FormInput id="company" name="company" type="text" placeholder=" " label="Bedrijfsnaam" required />
+            <FormInput id="email" name="email" type="email" placeholder=" " label="E-mailadres" required />
+            <FormInput id="phone" name="phone" type="tel" placeholder=" " label="Telefoon (optioneel)" />
+            <FormSelect id="challenge" name="challenge" required>
+              <option value="">Kies je grootste uitdaging...</option>
+              <option>Offertes & administratie</option>
+              <option>Planning & communicatie</option>
+              <option>Klantenservice</option>
+              <option>Anders</option>
+            </FormSelect>
+            <FormSelect id="timeline" name="timeline" required>
+                <option value="">Wanneer wil je starten?</option>
+                <option>Zo snel mogelijk</option>
+                <option>Binnen 3 maanden</option>
+                <option>Ik oriënteer me nog</option>
+            </FormSelect>
+            <button type="submit" className="w-full btn-primary text-lg py-4">
+              Verstuur & Plan Gesprek
+              <Send className="w-5 h-5 ml-2" />
+            </button>
           </form>
-        </div>
-
-        <div className="text-center mt-12 text-sm text-[var(--text-secondary)] space-x-8">
-            <a href="tel:+31612345678" className="inline-flex items-center gap-2 hover:text-[var(--text-primary)] transition-colors">
-              <Phone className="w-4 h-4" /> 06 - 12345678
-            </a>
-            <a href="mailto:info@groen.ai" className="inline-flex items-center gap-2 hover:text-[var(--text-primary)] transition-colors">
-              <Mail className="w-4 h-4" /> info@groen.ai
-            </a>
-        </div>
+        </motion.div>
       </div>
-      <style jsx>{`
-        .form-input {
-          width: 100%;
-          background-color: var(--glass-bg-secondary);
-          border: 1px solid var(--glass-border-color);
-          border-radius: 0.75rem;
-          padding: 12px 16px;
-          color: var(--text-primary);
-          transition: all 0.3s;
-        }
-        .form-input:focus {
-          outline: none;
-          border-color: var(--accent-primary);
-          box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 20%, transparent);
-        }
-        .btn-primary {
-          background: var(--accent-gradient);
-          color: white;
-          padding: 12px 24px;
-          border-radius: 999px;
-          font-weight: 500;
-          border: none;
-          cursor: pointer;
-          transition: all 0.3s var(--ease-premium);
-          display: inline-flex;
-          align-items: center;
-        }
-        .btn-primary:hover {
-          transform: scale(1.05);
-          box-shadow: 0 8px 24px rgba(13, 79, 60, 0.35);
-        }
-      `}</style>
     </section>
   );
 };
